@@ -1,1 +1,6 @@
-<router-outlet class="grid justify-center"/>
+<div class="dark:bg-gray-700" >
+    <app-header [darkMode]="darkMode" (toggleDarkMode)="toggleDarkMode()"/>
+    <app-sidebar />
+    <router-outlet/>
+    <app-footer />
+</div>

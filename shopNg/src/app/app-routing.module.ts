@@ -1,27 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainLayoutComponent } from './components/main-layout/main-layout.component';
-import { HomeComponent } from './components/home/home.component';
-import { PrdComponent } from './components/prd/prd.component';
-import { PrdDetailsComponent } from './components/prd-details/prd-details.component';
-import { FooterComponent } from './shared/footer/footer.component';
-
-
-
+import { MainComponent } from './components/main/main/main.component';
+import { HomeComponent } from './components/main/home/home.component';
 
 const routes: Routes = [
-  {
-    path: '', component: MainLayoutComponent, children: [
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      {
-        path: 'product',
-        loadChildren: () => import('src/app/components/components.module').then(m => m.ComponentsModule)
-      }
-    ]
-  }
-  , { path: 'footer', component: FooterComponent }
-];
+  
+    {
+      path: '', component: MainComponent, 
+      children: [
+        { path: '', redirectTo: '/home', pathMatch: 'full' },
+        { path: 'home', component: HomeComponent }, // if not here will not shown with other children inside mainLayout
+        {
+          path: 'prd',
+          loadChildren: () => import('src/app/components/product/product.module').then(m => m.ProductModule)
+        }
+      ]
+    },
+  ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -59,9 +59,11 @@
 	#endregion
 
 	#region icons
-		npm i @ng-icons/core
-		npm i @ng-icons/bootstrap-icons @ng-icons/css.gg
-	    NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,cssAdd}),
+		#region module imports
+			npm i @ng-icons/core
+			npm i @ng-icons/bootstrap-icons @ng-icons/css.gg
+	    	NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,cssAdd}),
+		#endregion
         <button
             class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             (click)="buy(prd.price,itemCount.value)">
@@ -1806,6 +1808,7 @@
 #endregion
 
 #region shared modules 19
+	ng g component nameComponent --module=app.module.ts
 	#region app module
 		@NgModule({
 		declarations: [
@@ -1889,5 +1892,92 @@
 			{ path: 'prd', component: PrdComponent },
 		]
 	#endregion
+
+	#region make module
+		ng g c components/home
+
+		ng g m auth --route auth --module app.module
+		ng g m analytics --route analytics --module app.module
+
+		ng g c auth/component/login --module auth
+		ng g c auth/component/signUp --module auth
+
+		#region app routing - auth routing - auth module
+			const routes: Routes = [
+				{path:'',component:HomeComponent},
+				{ path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+				{ path: 'analytics', loadChildren: () => import('./analytics/analytics.module').then(m => m.AnalyticsModule) }
+			];
+
+			const routes: Routes = [
+				{ path: '', component: AuthComponent },
+				{ path: 'login', component: LoginComponent },
+				{ path: 'signUp', component: SignUpComponent },
+			];
+
+			@NgModule({
+			declarations: [
+				AuthComponent,
+				LoginComponent,
+				SignUpComponent
+			],
+			imports: [
+				CommonModule,
+				AuthRoutingModule
+			]
+			})
+		#endregion
+	#endregion
 #endregion
 
+#region dark mode
+	#region tailwind ts
+		darkMode: 'class',
+	#endregion
+
+	#region navbar ts
+		@Input() darkMode: boolean = false;
+		@Output() toggleDarkMode = new EventEmitter<void>();
+		toggleDarkModeClicked() {
+			this.toggleDarkMode.emit();
+		}
+	#endregion
+
+	#region navbar html
+		#region module imports
+			npm i @ng-icons/core
+			npm i @ng-icons/bootstrap-icons @ng-icons/css.gg
+	    	NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,bootstrapMoonStarsFill,bootstrapSunFill}),
+		#endregion
+		
+		<div [ngClass]="{'dark': darkMode}" [dir]="'dir' |translate">
+		<div class="flex justify-center">
+			<button type="button"
+				class="relative inline-flex items-center p-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+				(click)="toggleDarkModeClicked()">
+				<ng-icon *ngIf="!darkMode" name="bootstrapSunFill"></ng-icon>
+				<ng-icon *ngIf="darkMode" name="bootstrapMoonStarsFill "></ng-icon>
+			</button>
+		</div>
+	#endregion
+
+	#region main ts
+		darkMode = false;
+
+		toggleDarkMode() {
+		this.darkMode = !this.darkMode;
+		}
+		@HostBinding('class.dark') get mode() {
+			return this.darkMode;
+		}
+	#endregion
+
+	#region main html
+		<div class="dark:bg-slate-700" [dir]="'dir' |translate">
+			<app-navbar [darkMode]="darkMode" (toggleDarkMode)="toggleDarkMode()"></app-navbar>
+			<router-outlet/>
+			<app-footer />
+		</div>
+	#endregion
+
+#endregion

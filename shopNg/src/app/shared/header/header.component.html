@@ -1,52 +1,62 @@
-<nav class="bg-white border-red-200 dark:bg-red-900">
-    <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
-        <div class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="https://picsum.photos/2000/1100" class="w-8 h-8 rounded-full" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">shop</span>
+<div [ngClass]="{'dark': darkMode}">
+    <nav class="bg-white border-red-200 dark:bg-red-900">
+        <div class="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
+            <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                <img src="https://picsum.photos/2000/1100" class="w-8 h-8 rounded-full" alt="Flowbite Logo" />
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">shop</span>
+            </div>
+            <button data-collapse-toggle="navbar-default" type="button"
+                class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm rounded-lg text-red-500 md:hidden hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200 dark:text-red-400 dark:hover:bg-red-700 dark:focus:ring-red-600"
+                aria-controls="navbar-default" aria-expanded="false">
+                <span class="sr-only">Open main menu</span>
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 1h15M1 7h15M1 13h15" />
+                </svg>
+            </button>
+            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+                <ul
+                    class="flex flex-col p-4 mt-4 font-medium border rounded-ldg border-red-100 md:p-0 bg-red-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-red-800 md:dark:bg-red-900 dark:border-red-700">
+                    <li>
+                        <div routerLink="/home" [routerLinkActive]="['text-red-700']"
+                            [routerLinkActiveOptions]="{exact:true}"
+                            class="block px-3 py-2 rounded text-red-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            aria-current="page">
+                            Home
+                        </div>
+                    </li>
+                    <li>
+                        <div routerLink="/prd" [routerLinkActive]="['text-red-700']"
+                            class="block px-3 py-2 rounded text-red-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                            prd
+                        </div>
+                    </li>
+                    <li>
+                        <div [routerLink]="['/prd/prd/1']" [routerLinkActive]="['text-red-700']"
+                            class="block px-3 py-2 rounded text-red-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                            product1
+                        </div>
+                    </li>
+                    <li>
+                        <div [routerLink]="['/prd/prd/2']" [routerLinkActive]="['text-red-700']"
+                            class="block px-3 py-2 rounded text-red-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                            product2</div>
+                    </li>
+                    <li>
+                        <div [routerLink]="['/prd/prd/3']" [routerLinkActive]="['text-red-700']"
+                            class="block px-3 py-2 rounded text-red-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                            product3</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="flex justify-center">
+                <button type="button"
+                    class="relative inline-flex items-center p-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    (click)="toggleDarkModeClicked()">
+                    <ng-icon *ngIf="!darkMode" name="bootstrapSunFill"></ng-icon>
+                    <ng-icon *ngIf="darkMode" name="bootstrapMoonStarsFill "></ng-icon>
+                </button>
+            </div>
         </div>
-        <button data-collapse-toggle="navbar-default" type="button"
-            class="inline-flex items-center justify-center w-10 h-10 p-2 text-sm roundedd-lg text-re-500 md:hidden hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200 dark:text-red-400 dark:hover:bg-red-700 dark:focus:ring-red-600"
-            aria-controls="navbar-default" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M1 1h15M1 7h15M1 13h15" />
-            </svg>
-        </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul
-                class="flex flex-col p-4 mt-4 font-medium border rounded-ldg border-re-100 md:p-0 bg-red-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-red-800 md:dark:bg-red-900 dark:border-red-700">
-                <li>
-                    <div [routerLink]="['/home']" [routerLinkActive]="['text-red-700']"
-                        [routerLinkActiveOptions]="{exact:true}"
-                        class="block px-3 py-2 roundedd text-re-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                        aria-current="page">
-                        Home
-                    </div>
-                </li>
-                <li>
-                    <div [routerLink]="['/product/prd']" [routerLinkActive]="['text-red-700']"
-                        class="block px-3 py-2 roundedd text-re-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        About
-                    </div>
-                </li>
-                <li>
-                    <div [routerLink]="['/product/prd/1']" [routerLinkActive]="['text-red-700']"
-                        class="block px-3 py-2 roundedd text-re-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        Services
-                    </div>
-                </li>
-                <li>
-                    <div [routerLink]="['/product/prd/2']" [routerLinkActive]="['text-red-700']"
-                        class="block px-3 py-2 roundedd text-re-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        Pricing</div>
-                </li>
-                <li>
-                    <div [routerLink]="['/product/prd/3']" [routerLinkActive]="['text-red-700']"
-                        class="block px-3 py-2 roundedd text-re-900 hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-red-500 dark:hover:bg-red-700 dark:hover:text-white md:dark:hover:bg-transparent">
-                        Contact</div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+    </nav>
+</div>

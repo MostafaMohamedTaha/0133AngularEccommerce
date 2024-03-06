@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-
+  @Input() darkMode: boolean = false;
+  @Output() toggleDarkMode = new EventEmitter<void>();
+  toggleDarkModeClicked() {
+    this.toggleDarkMode.emit();
+  }
 }

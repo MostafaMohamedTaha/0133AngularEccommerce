@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IProduct } from '../models/iproduct';
 import { environment } from 'src/environments/environment.development';
 import { Observable } from 'rxjs';
+import { IProduct } from '../models/iproduct';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 export class ProductService {
 
   constructor(private http:HttpClient) { }
-  get(): Observable<IProduct[]> {
+  get():Observable<IProduct[]>{
+    console.log(`${environment.apiLink}/products`)
     return this.http.get<IProduct[]>(`${environment.apiLink}/products`)
   }
 
