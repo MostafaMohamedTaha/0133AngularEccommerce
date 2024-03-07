@@ -1804,7 +1804,8 @@
 #endregion
 
 #region api link dummy 18
-	https://dummyjson.com/products
+	apiLink:'https://dummyjson.com/products'
+	apiLink:'https://fakestoreapi.com'
 #endregion
 
 #region shared modules 19
@@ -1930,7 +1931,7 @@
 	#endregion
 #endregion
 
-#region dark mode
+#region dark mode 20
 	#region tailwind ts
 		darkMode: 'class',
 	#endregion
@@ -1949,7 +1950,7 @@
 			npm i @ng-icons/bootstrap-icons @ng-icons/css.gg
 	    	NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,bootstrapMoonStarsFill,bootstrapSunFill}),
 		#endregion
-		
+
 		<div [ngClass]="{'dark': darkMode}" [dir]="'dir' |translate">
 		<div class="flex justify-center">
 			<button type="button"
@@ -1979,5 +1980,131 @@
 			<app-footer />
 		</div>
 	#endregion
+#endregion
 
+#region translate 21
+
+#endregion
+
+#region rating 22
+	#region html
+		<div>
+			<span igxCardHeaderSubtitle>
+				User Rating: {{ item.rating.rate}} 
+			</span>
+			<igc-rating [(ngModel)]="item.rating.rate" name="userRating"></igc-rating>
+		</div>
+
+		<div class="sample-column">
+			<form>
+				<igx-card elevated>
+					<igx-card-media height="300px">
+						<img [src]="product.ImageURL">
+					</igx-card-media>
+
+					<igx-card-header>
+						<h4 igxCardHeaderTitle>{{ product.ProductName }}</h4>
+					</igx-card-header>
+
+					<igx-card-content>
+						<span igxCardHeaderSubtitle>Price: {{ product.UnitPrice | currency:'USD' }}</span>
+						<span igxCardHeaderSubtitle>
+							User Rating: {{ productRating }} from {{ product.TotalReviews + (product.UserRating !== 0 ? 1 : 0) }} users
+						</span>
+						<igc-rating [(ngModel)]="product.UserRating" name="userRating"></igc-rating>
+					</igx-card-content>
+					<igx-card-actions>
+						<button igxButton="outlined" igxRipple igxStart>Buy again</button>
+						<button igxButton="icon"
+							igxRipple
+							[igxRippleCentered]="true"
+							*ngFor="let icon of product.icons" igxEnd>
+							<igx-icon [style.color]="'#ECAA53'">{{icon}}</igx-icon>
+						</button>
+					</igx-card-actions>
+				</igx-card>
+			</form>
+		</div>
+	#endregion
+
+	#region tailwind
+		.sample-column {
+			padding-bottom: 50px;
+		}
+
+		.igx-card {
+			flex: 1 1 0;
+			margin: 5px;
+			width: 500px;
+		}
+
+		.igx-card-header__subtitle {
+			font-size: 0.999rem;
+		}
+
+		igx-card-content {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-content: space-around;
+		}
+
+		span[igxCardHeaderSubtitle] {
+			flex-basis: 50%;
+			min-width: 50%;
+			padding-left: 8px;
+		}
+	#endregion
+
+	#region ts
+		import { Component} from '@angular/core';
+		import { IgcRatingComponent, defineComponents } from 'igniteui-webcomponents';
+
+		defineComponents(IgcRatingComponent)
+
+		@Component({
+			selector: 'app-rating-sample',
+			styleUrls: ['./rating-form.component.scss'],
+			templateUrl: './rating-form.component.html'
+		})
+		export class RatingInFormComponent {
+
+			public product = {
+				ProductID: 1,
+				ProductName: "Desk",
+				UnitPrice: 265.99,
+				UnitsInStock: 2,
+				AverageRating: 3.4,
+				TotalReviews: 6,
+				UserRating: 0,
+				ImageURL: 'https://cdn.pixabay.com/photo/2020/08/25/18/28/workplace-5517744_960_720.jpg',
+				OrderDate: new Date("2005-03-17"),
+				icons: ['favorite', 'share']
+			};
+
+			public get productRating(): string {
+				const rating = this.product.AverageRating +
+					((this.product.UserRating || this.product.AverageRating) - this.product.AverageRating) /
+					(this.product.TotalReviews + 1);
+				return rating.toFixed(1);
+			}
+		}
+	#endregion
+
+	#region module
+		ng add igniteui-angular
+		npm install igniteui-webcomponents --save
+		import { IgcFormControlDirective, IgcFormsModule, IgxButtonModule, IgxCardModule,IgxIconComponent, IgxIconModule, IgxRippleModule  } from 'igniteui-angular';
+		import { FormsModule } from '@angular/forms';
+
+		#region main.ts and module 
+			import { IgcRatingComponent,defineComponents } from 'igniteui-webcomponents';
+
+			defineComponents(IgcRatingComponent)
+
+			@NgModule({
+				schemas:[CUSTOM_ELEMENTS_SCHEMA],
+			})
+		#endregion
+	#endregion
 #endregion
