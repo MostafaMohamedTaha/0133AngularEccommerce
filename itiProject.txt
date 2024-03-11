@@ -14,6 +14,42 @@
 		git merge feature1
 		git push origin main
 	#endregion
+	
+	#region make module
+		ng g c components/home
+
+		ng g m auth --route auth --module app.module
+		ng g m analytics --route analytics --module app.module
+
+		ng g c auth/component/login --module auth
+		ng g c auth/component/signUp --module auth
+
+		#region app routing - auth routing - auth module
+			const routes: Routes = [
+				{path:'',component:HomeComponent},
+				{ path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+				{ path: 'analytics', loadChildren: () => import('./analytics/analytics.module').then(m => m.AnalyticsModule) }
+			];
+
+			const routes: Routes = [
+				{ path: '', component: AuthComponent },
+				{ path: 'login', component: LoginComponent },
+				{ path: 'signUp', component: SignUpComponent },
+			];
+
+			@NgModule({
+			declarations: [
+				AuthComponent,
+				LoginComponent,
+				SignUpComponent
+			],
+			imports: [
+				CommonModule,
+				AuthRoutingModule
+			]
+			})
+		#endregion
+	#endregion
 
 	#region flowbite init
 		ng new my-app --no-standalone
@@ -2105,6 +2141,198 @@
 			@NgModule({
 				schemas:[CUSTOM_ELEMENTS_SCHEMA],
 			})
+		#endregion
+	#endregion
+#endregion
+
+#region pagination 23
+	#region page 1
+
+		#region npx-pagination
+			npm i ngx-pagination
+		#endregion
+
+		#region html pag comp
+			<div class="d-flex justify-content-between">
+				<div class="d-flex align-items-center">
+					<div>
+					Showing {{ startIndex }}-{{ endIndex }} of {{ totalItemCount }} Entries
+					</div>
+					<select
+					name="paginationOption"
+					id="paginationOption"
+					[(ngModel)]="selectedItemsPerPage"
+					(ngModelChange)="onItemsPerPageChange($event)"
+					>
+					<option
+						*ngFor="let option of options"
+						[ngValue]="option.key"
+					>
+						{{ option.value }}
+					</option>
+					</select>
+					<div *ngIf="totalItemCount >= 10">Items / Page</div>
+				</div>
+				<pagination-controls
+					*ngIf="totalItemCount > selectedItemsPerPage"
+					(pageChange)="page = $event; onPageChange($event)"
+					responsive="true"
+					previousLabel="Previous"
+					nextLabel="Next"
+					screenReaderPaginationLabel="Pagination"
+					screenReaderPageLabel="page"
+				>
+				</pagination-controls>
+			</div>
+		#endregion
+
+		#region ts pag comp
+			#region imports
+				import {
+				Component,
+				EventEmitter,
+				Input,
+				Output,
+				SimpleChanges,
+				} from '@angular/core';
+			#endregion
+
+			#region ts
+				@Input() shouldCallOnPageChangesMethod: boolean;
+				@Input() page: number = 1;
+				@Input() totalItemCount: number = 0;
+
+				@Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
+				@Output() itemsPerPageChange: EventEmitter<number> =
+					new EventEmitter<number>();
+
+				selectedItemsPerPage: number = 10;
+
+				startIndex = 1;
+				endIndex = 1;
+				options = [
+					{ key: 10, value: 10 },
+					{ key: 20, value: 20 },
+				];
+
+				ngOnChanges(changes: SimpleChanges): void {
+					if (changes.page && this.shouldCallOnPageChangesMethod) {
+					this.onPageChange(this.page);
+					}
+					if (changes.page && !this.shouldCallOnPageChangesMethod) {
+					this.updateFirstPage(this.page);
+					}
+				}
+				onPageChange(pageNo: number): void {
+					this.startIndex = (pageNo - 1) * this.selectedItemsPerPage + 1;
+					if (pageNo * this.selectedItemsPerPage < this.totalItemCount) {
+					this.endIndex = pageNo * this.selectedItemsPerPage;
+					} else {
+					this.endIndex = this.totalItemCount;
+					}
+					this.pageChange.emit(pageNo);
+				}
+
+				updateFirstPage(pageNo: number): void {
+					this.startIndex = (pageNo - 1) * this.selectedItemsPerPage + 1;
+					if (pageNo * this.selectedItemsPerPage < this.totalItemCount) {
+					this.endIndex = pageNo * this.selectedItemsPerPage;
+					} else {
+					this.endIndex = this.totalItemCount;
+					}
+				}
+
+				onItemsPerPageChange(event: number): void {
+					this.selectedItemsPerPage = event;
+					this.page = 1;
+					this.itemsPerPageChange.emit(event);
+					this.onPageChange(this.page);
+				}
+			#endregion
+		#endregion
+
+		#region html home
+			<table class="table">
+			<thead>
+				<tr>
+				<th scope="col">#</th>
+				<th scope="col">First</th>
+				<th scope="col">Last</th>
+				<th scope="col">Profession</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ng-container
+				*ngFor="
+					let profession of professionRecord
+					| paginate : { itemsPerPage: itemsPerPage, currentPage: pageNumber }
+				"
+				>
+				<tr>
+					<th scope="row">{{ profession.no }}</th>
+					<td>{{ profession.first_name }}</td>
+					<td>{{ profession.last_name }}</td>
+					<td>{{ profession.profession }}</td>
+				</tr>
+				</ng-container>
+			</tbody>
+			</table>
+			<app-pagination
+			[page]="pageNumber"
+			[totalItemCount]="professionRecord.length"
+			(itemsPerPageChange)="itemsPerPage = $event"
+			(pageChange)="pageNumber = $event"
+			>
+			</app-pagination>
+		#endregion
+
+		#region home ts
+			pageNumber: number = 1;
+			itemsPerPage: number = 10;
+			prdList:IProduct[] = [];
+			totalItemCount: number=0;
+			ngOnInit() {
+				this.totalItemCount = this.professionRecord.length;
+			}
+		#endregion
+	#endregion
+
+	#region page 2
+		#region npx-pagination
+			npm i ngx-pagination
+			import { NgxPaginationModule } from 'ngx-pagination';
+		#endregion
+
+		#region html
+			<div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let P of products| paginate
+				: {itemsPerPage: pageSize,currentPage: pageNumber,totalItems: allProducts}">
+				<div class="d-flex justify-content-center">
+				<pagination-controls (pageChange)="renderPage($event)" ></pagination-controls>
+				<!-- <pagination-controls (pageChange)="p=$event" ></pagination-controls> -->
+				</div>
+			</div>
+		#endregion
+
+		#region TS
+			products: Iproduct[] = [];
+			pageNumber:number=1;
+			pageSize:number=10;
+			allProducts:number=1
+			ngOnInit(): void {
+				this.getByPagination();
+			}
+
+			getByPagination(){
+				this.pro.getProPag(this.pageNumber,this.pageSize).subscribe((data:any) => {
+				this.products=data.data;
+				this.allProducts = data.count;
+				console.log(data.count)
+				});
+			}
+			renderPage(event:number) {
+				this.pageNumber=event
+				this.getByPagination();
+			}
 		#endregion
 	#endregion
 #endregion

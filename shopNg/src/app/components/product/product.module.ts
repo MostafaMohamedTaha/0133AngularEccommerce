@@ -6,6 +6,8 @@ import { ProductRouteRoutingModule } from './product-route-routing.module';
 import { IgcFormControlDirective, IgcFormsModule, IgxButtonModule, IgxCardModule,IgxIconComponent, IgxIconModule, IgxRippleModule } from 'igniteui-angular';
 import { FormsModule } from "@angular/forms";
 import { IgcRatingComponent,defineComponents } from 'igniteui-webcomponents';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationComponent } from './pagination/pagination.component';
 
 defineComponents(IgcRatingComponent)
 
@@ -16,6 +18,7 @@ defineComponents(IgcRatingComponent)
   declarations: [
     ProductListComponent,
     ProductDetailsComponent,
+    PaginationComponent,
     
   ],
   imports: [
@@ -31,6 +34,7 @@ defineComponents(IgcRatingComponent)
     IgxIconModule,
     IgxRippleModule,
     FormsModule,
+    NgxPaginationModule
   ]
 })
 export class ProductModule { }

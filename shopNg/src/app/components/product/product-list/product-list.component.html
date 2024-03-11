@@ -1,5 +1,5 @@
 <div class="grid lg:grid-cols-4 mx-auto justify-center m-3">
-    <div class="grid  col-span-1" *ngFor="let item of prdList">
+    <div class="grid  col-span-1" *ngFor="let item of prdList | paginate : { itemsPerPage: itemsPerPage, currentPage: pageNumber }">
         <div
             class="m-3  border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700  ">
     
@@ -37,6 +37,16 @@
         </div>
     </div>
 </div>
+<!-- <div class="grid justify-center">
+    <pagination-controls (pageChange)="renderPage($event)" ></pagination-controls>
+</div> -->
+<app-pagination
+    [page]="pageNumber"
+    [totalItemCount]="prdList.length"
+    (itemsPerPageChange)="itemsPerPage = $event"
+    (pageChange)="pageNumber = $event"
+>
+</app-pagination>
 
 <!-- <div class="sample-column">
     <form>
