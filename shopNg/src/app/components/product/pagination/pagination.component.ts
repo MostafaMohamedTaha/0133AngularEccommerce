@@ -20,13 +20,14 @@ export class PaginationComponent {
   @Output() itemsPerPageChange: EventEmitter<number> =
     new EventEmitter<number>();
 
-  selectedItemsPerPage: number = 10;
+  selectedItemsPerPage: number = 8;
 
   startIndex = 1;
   endIndex = 1;
   options = [
-    { key: 10, value: 10 },
-    { key: 20, value: 20 },
+    { key: 8, value: 8 },
+    { key: 16, value: 16 },
+    { key: 24, value: 24 },
   ];
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -37,6 +38,7 @@ export class PaginationComponent {
     this.updateFirstPage(this.page);
     }
   }
+  //change page number
   onPageChange(pageNo: number): void {
     this.startIndex = (pageNo - 1) * this.selectedItemsPerPage + 1;
     if (pageNo * this.selectedItemsPerPage < this.totalItemCount) {
@@ -46,7 +48,7 @@ export class PaginationComponent {
     }
     this.pageChange.emit(pageNo);
   }
-
+// first page init
   updateFirstPage(pageNo: number): void {
     this.startIndex = (pageNo - 1) * this.selectedItemsPerPage + 1;
     if (pageNo * this.selectedItemsPerPage < this.totalItemCount) {
@@ -55,7 +57,7 @@ export class PaginationComponent {
     this.endIndex = this.totalItemCount;
     }
   }
-
+//select box function
   onItemsPerPageChange(event: number): void {
     this.selectedItemsPerPage = event;
     this.page = 1;

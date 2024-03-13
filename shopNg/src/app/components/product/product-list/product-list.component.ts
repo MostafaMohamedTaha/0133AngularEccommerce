@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { IProduct } from 'src/app/models/iproduct';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -10,14 +12,27 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent implements OnInit{
   prdList!: IProduct[]
   pageNumber: number = 1;
-  itemsPerPage: number = 10;
-  // professionRecord = [];
   totalItemCount: number=0;
-  constructor(private prd: ProductService) {}
+  itemsPerPage: number = 8;
+  showToaster:boolean=false
+  constructor(private prd: ProductService,private route:Router) {}
   ngOnInit(): void {
     this.prd.get().subscribe(x => this.prdList = x)
-    // this.getByPagination()
     this.totalItemCount=this.prdList.length
+  }
+  addToCart(newPrd:IProduct){
+    this.prd.add(newPrd)
+    this.toaster()
+  }
+  toaster(){
+    this.showToaster=true
+    setTimeout(() => {
+      this.showToaster = false;
+      // this.route.navigateByUrl('/prd/')
+    }, 3000);
+  }
+  removeFromCart(prd:IProduct){
+    this.prd.delete(prd)
   }
   //#region comment
 

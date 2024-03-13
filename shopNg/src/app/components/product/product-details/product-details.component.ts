@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IProduct } from 'src/app/models/iproduct';
 import { Location } from '@angular/common'
 import { ProductService } from 'src/app/services/product.service';
-import { Observable, from } from 'rxjs';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
@@ -12,7 +11,8 @@ import { Observable, from } from 'rxjs';
 export class ProductDetailsComponent implements OnInit {
   currPrdId!: number
   prd!: IProduct 
-  // prdIdsList: number[] = []
+  showAddToCart:boolean=true
+  showRemoveFromCart:boolean=false
   constructor(
     private activateRoute: ActivatedRoute
     , private prdService: ProductService
@@ -29,5 +29,15 @@ export class ProductDetailsComponent implements OnInit {
   goBack() {
     this.location.back()
     // this.prdService.getById(this.currPrdId).subscribe(x => this.prd = x)
+  }
+  addToCart(newPrd:IProduct){
+    this.showAddToCart=false
+    this.showRemoveFromCart=true
+    this.prdService.add(newPrd)
+  }
+  removeFromCart(newPrd:IProduct){
+    this.showAddToCart=true
+    this.showRemoveFromCart=false
+    this.prdService.delete(newPrd)
   }
 }

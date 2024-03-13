@@ -8,6 +8,7 @@ import { FormsModule } from "@angular/forms";
 import { IgcRatingComponent,defineComponents } from 'igniteui-webcomponents';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { PaginationComponent } from './pagination/pagination.component';
+import { CartComponent } from './cart/cart.component';
 
 defineComponents(IgcRatingComponent)
 
@@ -19,6 +20,7 @@ defineComponents(IgcRatingComponent)
     ProductListComponent,
     ProductDetailsComponent,
     PaginationComponent,
+    CartComponent,
     
   ],
   imports: [

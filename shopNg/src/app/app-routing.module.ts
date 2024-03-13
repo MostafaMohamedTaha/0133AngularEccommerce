@@ -4,7 +4,6 @@ import { MainComponent } from './components/main/main/main.component';
 import { HomeComponent } from './components/main/home/home.component';
 
 const routes: Routes = [
-  
     {
       path: '', component: MainComponent, 
       children: [

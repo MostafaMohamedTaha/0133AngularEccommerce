@@ -1,6 +1,6 @@
 <div class="grid justify-center">
     <div class="grid justify-center">
-        <div>
+        <div class="dark:text-white">
             Showing {{ startIndex }}-{{ endIndex }} of {{ totalItemCount }} Entries
         </div>
         <select name="paginationOption" id="paginationOption" [(ngModel)]="selectedItemsPerPage"
@@ -9,9 +9,11 @@
                 {{ option.value }}
             </option>
         </select>
-        <div *ngIf="totalItemCount >= 10">Items / Page</div>
+        <div *ngIf="totalItemCount >= 8" class="dark:text-white">Items / Page</div>
     </div>
+
     <pagination-controls *ngIf="totalItemCount > selectedItemsPerPage"
         (pageChange)="page = $event; onPageChange($event)" [responsive]="true" previousLabel="Previous" nextLabel="Next"
-        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"></pagination-controls>
+        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page">
+    </pagination-controls>
 </div>
