@@ -10,13 +10,21 @@ import { ProductService } from 'src/app/services/product.service';
 export class CartComponent implements OnInit{
   productShow:IProduct[]=[]
   totalPrice:number=0
-  constructor(private prd:ProductService){}
+  quantity:number=1
+  constructor(private prd:ProductService){
+  }
   ngOnInit(): void {
     this.prd.products().subscribe(x=>this.productShow=x)
-    this.totalPrice=this.prd.calcPrice()
+    this.totalPrice=this.prd.calcPrice(this.quantity)
   }
   remove(newItem:IProduct){
     this.prd.delete(newItem)
   }
 
+  increment(){
+    
+  }
+  decrement(){
+
+  }
 }

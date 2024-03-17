@@ -21,6 +21,8 @@
     "@igniteui/material-icons-extended": "^3.0.0",
     "@ng-icons/bootstrap-icons": "^27.2.0",
     "@ng-icons/core": "^27.2.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "environments": "^1.2.7",
     "fflate": "^0.8.1",
     "flowbite": "^2.3.0",

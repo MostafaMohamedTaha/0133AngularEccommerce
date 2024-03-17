@@ -39,10 +39,12 @@ export class ProductService {
   products(): Observable<IProduct[]> {
     return this.productList
   }
-  calcPrice() {
+  calcPrice(qty:number) {
     let total = 0
+    let quantity=qty
     this.cartItemList.map((x: any) => {
-      total += x.price
+      quantity=x.quantity
+      total += x.price*quantity
     })
     return total
   }

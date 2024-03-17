@@ -6,7 +6,14 @@ import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill, bootstrapList, bootstrapMoonStarsFill, bootstrapSunFill } from '@ng-icons/bootstrap-icons';
 import { NgIconsModule } from '@ng-icons/core';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+
+export function translateFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http)
+}
 const routes:Routes=[
 
 ]
@@ -21,6 +28,13 @@ const routes:Routes=[
     CommonModule,
     RouterModule.forChild(routes),
     NgIconsModule.withIcons({ bootstrapCart4, bootstrapTrash3, bootstrapInfoCircleFill,bootstrapList,bootstrapMoonStarsFill,bootstrapSunFill}),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: translateFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
   exports:[
     HeaderComponent,
